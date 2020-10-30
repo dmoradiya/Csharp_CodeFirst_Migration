@@ -31,6 +31,13 @@ namespace CodeFirstPractice.Models
                 entity.Property(e => e.Name)
                 .HasCharSet("utf8mb4")
                 .HasCollation("utf8mb4_general_ci");
+
+                entity.HasData(
+                    new Shelf() { ID= -1, Name = "Groceries" },
+                    new Shelf() { ID= -2, Name = "Medicine" },
+                    new Shelf() { ID= -3, Name = "Books" },
+                    new Shelf() { ID= -4, Name = "Electronics" },
+                    new Shelf() { ID= -5, Name = "Bedding" });
             });
         }
     }

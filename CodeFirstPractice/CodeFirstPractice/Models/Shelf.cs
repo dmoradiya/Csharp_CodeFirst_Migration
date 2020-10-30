@@ -14,7 +14,8 @@ namespace CodeFirstPractice.Models
         [Column(TypeName = "int(10)")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-
+        
+        [Required]
         [Column(TypeName = "varchar(50)")]
         public string Name { get; set; }
     }

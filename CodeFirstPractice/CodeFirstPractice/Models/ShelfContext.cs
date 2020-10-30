@@ -9,6 +9,8 @@ namespace CodeFirstPractice.Models
     {
         public virtual DbSet<Shelf> Shelves { get; set; }
 
+
+        // Connection to Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -26,18 +28,33 @@ namespace CodeFirstPractice.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Shelf_Material Table Entity
+            modelBuilder.Entity<Shelf_Material>(entity =>
+            {
+                entity.Property(e => e.MaterialName)
+                .HasCharSet("utf8mb4")
+                .HasCollation("utf8mb4_general_ci");
+               
+            });
+
+            // Shelf Table Entity
             modelBuilder.Entity<Shelf>(entity =>
             {
+                string keyName = "FK_" + nameof(Shelf) +
+                   "_" + nameof(Shelf_Material);
+
                 entity.Property(e => e.Name)
                 .HasCharSet("utf8mb4")
                 .HasCollation("utf8mb4_general_ci");
 
-                entity.HasData(
-                    new Shelf() { ID= -1, Name = "Groceries" },
-                    new Shelf() { ID= -2, Name = "Medicine" },
-                    new Shelf() { ID= -3, Name = "Books" },
-                    new Shelf() { ID= -4, Name = "Electronics" },
-                    new Shelf() { ID= -5, Name = "Bedding" });
+                entity.HasIndex(e => e.ShelfMaterialID)
+                .HasName(keyName);
+
+                entity.HasOne(thisEntity => thisEntity.Shelf_Material)
+                .WithMany(parent => parent.Shelves)
+                .HasForeignKey(thisEntity => thisEntity.ShelfMaterialID)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName(keyName);
             });
         }
     }

@@ -1,5 +1,7 @@
 ﻿using CodeFirstPractice.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeFirstPractice
 {
@@ -7,19 +9,27 @@ namespace CodeFirstPractice
     {
         static void Main(string[] args)
         {
-           ShelfContext context = new ShelfContext();
 
             string input;
-            Console.WriteLine("Please Enter Shelf Name:");
+            Console.WriteLine("please enter shelf material name:");
             input = Console.ReadLine().Trim();
 
-            context.Shelves.Add(new Shelf()
+            using (ShelfContext context = new ShelfContext())
             {
-                Name = input
+                try
+                {
+                    Shelf_Material shelf_Material = context.Shelf_Materials.Where(x => x.MaterialName == input).Single();
+                    Console.WriteLine("The material exists in the 'Shelf_Material' table");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Name does not exist in the 'Shelf_Material' table");
 
-            });
+                }
+              
+            }
 
-            context.SaveChanges();
         }
+       
     }
 }

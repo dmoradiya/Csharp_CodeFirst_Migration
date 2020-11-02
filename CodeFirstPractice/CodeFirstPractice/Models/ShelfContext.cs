@@ -8,6 +8,7 @@ namespace CodeFirstPractice.Models
     class ShelfContext : DbContext
     {
         public virtual DbSet<Shelf> Shelves { get; set; }
+        public virtual DbSet<Shelf_Material> Shelf_Materials { get; set; }
 
 
         // Connection to Database

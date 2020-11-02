@@ -18,7 +18,7 @@ namespace CodeFirstPractice
             {
                 try
                 {
-                    Shelf_Material shelf_Material = context.Shelf_Materials.Where(x => x.MaterialName == input).Single();
+                    Shelf_Material shelf_Material = context.Shelf_Materials.Where(x => x.MaterialName.ToLower() == input.ToLower()).Single();
                     Console.WriteLine("The material exists in the 'Shelf_Material' table");
                 }
                 catch (Exception)
